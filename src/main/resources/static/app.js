@@ -40,7 +40,7 @@ connectButton.onclick = function () {
 
     stompClient.subscribe('/topic/messages', function (frame) {
       var receivedData = JSON.parse(frame.body);
-      showMessageInFeed(receivedData.chat);
+      showMessageInFeed(receivedData.content);
     });
   };
 
@@ -70,7 +70,7 @@ sendButton.onclick = function () {
 
   stompClient.publish({
     destination: '/app/hello',
-    body: JSON.stringify({ chat: text })
+    body: JSON.stringify({ content: text })
   });
 
   messageInput.value = '';
