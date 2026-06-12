@@ -48,14 +48,23 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
+
+            String username = request.getUsername()
+                    .trim()
+                    .toLowerCase();
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(), request.getPassword()
+                            username,
+                            request.getPassword()
                     )
             );
+
             UserDetails user = (UserDetails) authentication.getPrincipal();
             String token = jwtUtil.generateToken(user.getUsername());
+
             return ResponseEntity.ok(new AuthResponse(token));
+
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password");

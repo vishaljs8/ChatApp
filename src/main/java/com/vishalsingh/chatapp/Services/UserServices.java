@@ -18,6 +18,18 @@ public class UserServices {
     private PasswordEncoder passwordEncoder;
 
     public UserEntity save(UserEntity user) {
+        String username = user.getUsername();
+
+        if (username == null || username.trim().isEmpty()) {
+            throw new RuntimeException("Username is required");
+        }
+
+
+        username = username.trim().toLowerCase();
+
+        user.setUsername(username);
+
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);

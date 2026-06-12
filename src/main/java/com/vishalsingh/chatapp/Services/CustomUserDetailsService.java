@@ -16,15 +16,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username){
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+
+        username = username.trim().toLowerCase();
 
         UserEntity user = userRepository.findByUsername(username);
+
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
 
-        return User.builder().
-                username(user.getUsername()).
-                password(user.getPassword()).build();
+        return User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .build();
     }
 }

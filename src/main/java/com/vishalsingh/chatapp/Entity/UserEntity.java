@@ -1,5 +1,6 @@
 package com.vishalsingh.chatapp.Entity;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
@@ -11,8 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserEntity {
     @Id
     private String id;
-    @NonNull
-    @Indexed(unique = true, sparse = true)
+    @NotBlank
+    @Indexed(unique = true)
     private String username;
     @NonNull
     private String password;
